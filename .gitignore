@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.idea/
+.DS_Store
+catboost_info/
+lightning_logs/
+build/
+dist/
+*.egg-info/
+.ipynb_checkpoints/
