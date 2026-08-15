@@ -1,13 +1,13 @@
 # HUMI
 
-[![arXiv](https://img.shields.io/badge/arXiv-2606.01602-b31b1b.svg)](https://arxiv.org/abs/2606.01602)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[[arXiv](https://img.shields.io/badge/arXiv-2606.01602-b31b1b.svg)](https://arxiv.org/abs/2606.01602)
+[[Blog](https://img.shields.io/badge/Blog-project%20page-blue.svg)](https://pufferbyte.github.io/kdd26mi/)
 
-**HUMI** (Mutual Information between Time Series and Temporal Event Sequence)
+
+**HUMI** 
 directly estimates the dependence between a continuous time series and a
 discrete temporal event sequence — no discretization, no training, no
-learned cross-modal representation. It plays the same role Pearson
-correlation plays for two time series, but for heterogeneous data types.
+learned cross-modal representation. 
 
 Paper: [Estimating Mutual Information between Time Series and Temporal Event
 Sequences Across Diverse Analysis Tasks](https://arxiv.org/abs/2606.01602)
@@ -21,18 +21,25 @@ cd HUMI
 pip install -e .
 ```
 
-Requires Python >= 3.9. Core dependencies are just `numpy`, `scipy` and
+Core dependencies are just `numpy`, `scipy` and
 `scikit-learn`.
 
-## Quickstart
+## Getting Started
 
 ```python
+import pandas as pd
 from humi import estimate_mi
-from humi.datasets import synthetic_mixture
 
-events, signal = synthetic_mixture(1000, seed=0)
-score = estimate_mi(events, signal)  # normalized MI in [0, 1]
+# daily traffic volume, Minneapolis, Dec-Jan (experiments/data/traffic/51_12_1.csv)
+traffic = pd.read_csv("experiments/data/traffic/51_12_1.csv", header=None)[0].to_numpy()
+weekday = [i % 7 for i in range(len(traffic))]
+
+score = estimate_mi(events=weekday, signal=traffic)  # normalized MI in [0, 1]
 ```
+
+This reframes weekly seasonality as a dependence score between traffic volume
+and day-of-week — see [`experiments/seasonality_real_data.py`](experiments/seasonality_real_data.py)
+for the full reproduction, including the June-July comparison.
 
 In practice, `events` is a discrete state per timestep (weekday, holiday,
 promotion, medication status, ...) and `signal` is the aligned continuous

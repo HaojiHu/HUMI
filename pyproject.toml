@@ -8,7 +8,6 @@ version = "0.1.0"
 description = "Mutual Information between Time Series and Temporal Event Sequence"
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.9"
 authors = [
   { name = "Haoji Hu" },
   { name = "Huaqing Mao" },
