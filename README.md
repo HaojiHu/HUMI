@@ -25,7 +25,8 @@ Core dependencies are just `numpy`, `scipy` and
 
 ## Getting Started
 
-This example converts a repeated local pattern (the day/night temperature cycle) into a dependence measure between temperature and time-of-day context. DN first labels each timestep as day or night, and then measures how much that context reduces uncertainty about temperature.
+
+This example converts a repeated local pattern (the day/night temperature cycle) into a dependence measure between temperature and time-of-day context. DN labels each timestep as day or night, and then measures how much that context reduces uncertainty about temperature.
 
 ```python
 import pandas as pd
@@ -37,7 +38,7 @@ df = pd.read_csv("experiments/data/tdmi/minneapolis_2023_day_high_night_low.csv"
 series = df[["night_low_f", "day_high_f"]].to_numpy().reshape(-1)
 events = ["night", "day"] * len(df)
 
-score = humi.humi(events=events, series=series, cluster=False)  # 0.6124
+score = humi.humi(events=events, series=series, cluster=False) 
 ```
 
 See [`experiments/tempurature_exp.py`](experiments/tempurature_exp.py)
