@@ -1,12 +1,11 @@
 # HUMI
 
-[[arXiv](https://img.shields.io/badge/arXiv-2606.01602-b31b1b.svg)](https://arxiv.org/abs/2606.01602)
-[[Blog](https://img.shields.io/badge/Blog-project%20page-blue.svg)](https://pufferbyte.github.io/kdd26mi/)
-
+[[paper](https://arxiv.org/pdf/2606.01602)]
+[[Blog](https://pufferbyte.github.io/kdd26mi/)]
 
 **HUMI** 
 directly estimates the dependence between a continuous time series and a
-discrete temporal event sequence — no discretization, no training, no
+discrete temporal event sequence - no discretization, no training, no
 learned cross-modal representation. 
 
 Paper: [Estimating Mutual Information between Time Series and Temporal Event
@@ -26,32 +25,37 @@ Core dependencies are just `numpy`, `scipy` and
 
 ## Getting Started
 
+This example converts a repeated local pattern (the day/night temperature cycle) into a dependence measure between temperature and time-of-day context. DN first labels each timestep as day or night, and then measures how much that context reduces uncertainty about temperature.
+
 ```python
 import pandas as pd
-from humi import estimate_mi
+import humi
 
-# daily traffic volume, Minneapolis, Dec-Jan (experiments/data/traffic/51_12_1.csv)
-traffic = pd.read_csv("experiments/data/traffic/51_12_1.csv", header=None)[0].to_numpy()
-weekday = [i % 7 for i in range(len(traffic))]
+# Minneapolis 2023 day-high / night-low temperature
+# (experiments/data/tdmi/minneapolis_2023_day_high_night_low.csv)
+df = pd.read_csv("experiments/data/tdmi/minneapolis_2023_day_high_night_low.csv")
+series = df[["night_low_f", "day_high_f"]].to_numpy().reshape(-1)
+events = ["night", "day"] * len(df)
 
-score = estimate_mi(events=weekday, signal=traffic)  # normalized MI in [0, 1]
+score = humi.humi(events=events, series=series, cluster=False)  # 0.6124
 ```
 
-This reframes weekly seasonality as a dependence score between traffic volume
-and day-of-week — see [`experiments/seasonality_real_data.py`](experiments/seasonality_real_data.py)
-for the full reproduction, including the June-July comparison.
+See [`experiments/tempurature_exp.py`](experiments/tempurature_exp.py)
+for the full reproduction, including the `TwoMon` and `DNTwoMon`
+contexts that push the score up to 0.96.
 
 In practice, `events` is a discrete state per timestep (weekday, holiday,
-promotion, medication status, ...) and `signal` is the aligned continuous
+promotion, medication status, ...) and `series` is the aligned continuous
 value (traffic volume, sales, temperature, heart rate, ...):
 
 ```python
-from humi import estimate_mi
+import humi
 
-score = estimate_mi(events=promotions, signal=sales)
+score = humi.humi(events=promotions, series=sales)
 ```
 
-`estimate_mi` also accepts:
+
+`humi` also accepts:
 
 - `cluster` (default `True`): merge redundant or highly correlated event
   states into latent clusters before estimating, recommended whenever the
