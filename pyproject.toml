@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "humi"
+version = "0.1.0"
+description = "Mutual Information between Time Series and Temporal Event Sequence"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+  { name = "Haoji Hu" },
+  { name = "Huaqing Mao" },
+  { name = "Yijun Lin" },
+  { name = "Xiaowei Jia" },
+  { name = "Jinwei Zhou" },
+  { name = "Minoh Jeong" },
+  { name = "Yao-Yi Chiang" },
+]
+keywords = ["mutual information", "time series", "event sequence", "temporal data"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = [
+  "numpy",
+  "scipy",
+  "scikit-learn",
+]
+
+[project.urls]
+Homepage = "https://github.com/HaojiHu/HUMI"
+Paper = "https://arxiv.org/abs/2606.01602"
+
+[tool.setuptools]
+packages = ["humi"]
