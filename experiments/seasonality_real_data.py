@@ -57,7 +57,7 @@ for i in range(size):
         groups[label].append(first_column_array[i])
 
 
-mi = normalize_clustered_mi.NormalizedClusteredMI(days, first_column_array, 3)
+mi = normalize_clustered_mi.NormalizedClusteredMI(days, first_column_array, 50)
 print(f"Proposed mutual information is {mi}")
 
 
