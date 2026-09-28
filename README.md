@@ -1,7 +1,6 @@
 # HUMI
 
 [[paper](https://arxiv.org/pdf/2606.01602)]
-[[Blog](https://pufferbyte.github.io/kdd26mi/)]
 
 **HUMI** 
 directly estimates the dependence between a continuous time series and a
